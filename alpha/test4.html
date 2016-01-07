@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <script type="text/javascript" src="js/jquery-2.0.0.min.js"></script>
+<script type="text/javascript" src="js/three.min.js"></script>
+  <script src="js/dance.js"></script>
+</head>
+<body>
+
+  
+</body>
+
+<script>
+
+    var dancer = new Dancer();
+    var boost = 0;
+  // Using an audio object
+  var a = new Audio();
+  a.src = 'data/test.mp3';
+  dancer.load( a );
+  dancer.play()
+
+  temp = dancer.getWaveform()
+
+  function getData() {
+  for (var i = 0; i < temp.length; i++) {
+                boost += temp[i];
+                // console.log(array[i])
+            }
+  console.log(boost)
+}
+
+</script>
+</html>

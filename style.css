@@ -1,0 +1,28 @@
+section {
+  width: 30%;
+}
+
+#pad1 {
+  display: inline-block;
+  background-color: plum;
+  width: 20%;
+  height: 10%;
+}
+#pad2 {
+  display: inline-block;
+  background-color: pink;
+  width: 20%;
+  height: 10%;
+}
+#pad3 {
+  display: inline-block;
+  background-color: tomato;
+  width: 20%;
+  height: 10%;
+}
+#pad4 {
+  display: inline-block;
+  background-color: yellow;
+  width: 20%;
+  height: 10%;
+}
