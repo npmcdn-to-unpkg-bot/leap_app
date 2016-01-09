@@ -1,5 +1,6 @@
 <html>
   <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="http://js.leapmotion.com/leap-0.4.2.js"></script>
     <script src="wavesufer.js"></script>
     <link rel="stylesheet" href="style.css">
@@ -18,6 +19,11 @@
     <div id="pad2" data-sound="sound_test2.wav"></div>
     <div id="pad3" data-sound="sound_test3.wav"></div>
     <div id="pad4" data-sound="sound_test4.wav"></div>
+
+    <!-- <div id="pad1" data-sound="http://download.wavetlan.com/SVV/Media/HTTP/WAV/Media-Convert/Media-Convert_test6_PCM_Stereo_VBR_16SS_8000Hz.wav"></div> -->
+    <!-- <div id="pad2" data-sound="sound_test2.wav"></div> -->
+    <!-- <div id="pad3" data-sound="sound_test3.wav"></div> -->
+    <!-- <div id="pad4" data-sound="sound_test4.wav"></div> -->
 </section>
   </body>
   <script type="text/javascript">
@@ -71,6 +77,20 @@
         object.s = s;
     }
 }
+
+$(function() {
+  $('#sp div').each(function() {
+
+        addAudioProperties(this);
+
+    });
+
+    $('#sp div').click(function() {
+      console.log('here')
+        this.play();
+
+    });
+});
 
 
         </script>

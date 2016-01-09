@@ -3,9 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <title>Document</title>
-  <script type="text/javascript" src="js/jquery-2.0.0.min.js"></script>
-<script type="text/javascript" src="js/three.min.js"></script>
-  <script src="js/dance.js"></script>
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script src="dance.js"></script>
+  <script type="text/javascript" src="js/Detector.js"></script>
+    <!-- // <script type="text/javascript" src="js/jquery.min.js"></script> -->
+    <!-- // <script type="text/javascript" src="js/three.min.js"></script> -->
+    <!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r69/three.js"></script> -->
+    <script src="
+https://cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.js"></script>
+    <script type="text/javascript" src="js/leap.min.js"></script>
+    <script type="text/javascript" src="js/LeapCameraControls.js"></script>
+    <script type="text/javascript" src="js/LeapObjectControls.js"></script>
+    <script src="js/OrbitControls.js"></script>
+
+  <!-- // <script src="//js.leapmotion.com/leap-0.6.4.js"></script> -->
+
+   <!-- <script src="//js.leapmotion.com/leap-0.4.3.js"></script>
+  // <script src="js/leap-plugins-0.1.11pre.js"></script>
+
+  // <script src="js/leap-widgets-0.1.0.js"></script> -->
+
 </head>
 <body>
 
@@ -14,23 +31,119 @@
 
 <script>
 
-    var dancer = new Dancer();
-    var boost = 0;
-  // Using an audio object
+// window.onload = function() {
+      var projector;
+      var objects = [], objectsControls = [], cameraControls;
+      var coords1, coords2, coords3;
+      var lastControlsIndex = -1, controlsIndex = -1, index = -1;
+
+      var renderer = new THREE.WebGLRenderer();
+    renderer.setSize( 800, 600 );
+    document.body.appendChild( renderer.domElement );
+
+     var scene = new THREE.Scene();
+
+       camera = new THREE.PerspectiveCamera(
+        35,         // Field of view
+        800 / 640,  // Aspect ratio
+        0.1,        // Near
+        10000       // Far
+    );
+    camera.position.set( -15, 10, 10 );
+    camera.lookAt( scene.position );
+
+//     var geometry = new THREE.Geometry();
+
+var geometry = new THREE.BoxGeometry( 1, 5, 1 );
+var material = new THREE.MeshBasicMaterial( {color: 0x0dbf00} );
+var cube = new THREE.Mesh( geometry, material );
+scene.add( cube );
+
+
+    // var geometry = new THREE.BoxGeometry( 5, 5, 5 );
+    // var material = new THREE.MeshLambertMaterial( { color: 0xFF0000 } );
+    var mesh = new THREE.Mesh( geometry, material );
+    scene.add( mesh );
+
+    var light = new THREE.PointLight( 0xFFFF00 );
+    light.position.set( 10, 0, 10 );
+    scene.add( light );
+
+      renderer.setClearColor( 0xdddddd, 1);
+      renderer.render( scene, camera );
+
+
+
+  //   var dancer = new Dancer();
+  //   var boost = 0;
+  // // Using an audio object
   var a = new Audio();
-  a.src = 'data/test.mp3';
-  dancer.load( a );
-  dancer.play()
+  a.src = 'test.mp3';
+  // dancer.load( a );
+  // dancer.play()
 
-  temp = dancer.getWaveform()
+  // temp = dancer.getWaveform()
+  // dancer.createKick([0,10]);
+  // function getData() {
+  // for (var i = 0; i < temp.length; i++) {
+  //               boost += temp[i];
+  //               // console.log(array[i])
+  //           }
+  // console.log(boost)
+  // }
 
-  function getData() {
-  for (var i = 0; i < temp.length; i++) {
-                boost += temp[i];
-                // console.log(array[i])
-            }
-  console.log(boost)
-}
+    // To enable flash fallback, specify the paths for the flashSWF and flashJS
+  // Dancer.setOptions({
+  //   flashJS  : '../../lib/soundmanager2.js',
+  //   flashSWF : '../../lib/soundmanager2.swf'
+  // });
+
+  var
+    // audio  = document.getElementsByTagName('audio')[0],
+    dancer = new Dancer(),
+    kick = dancer.createKick({
+      onKick: function ( mag ) {
+        console.log('Kick!');
+      },
+      offKick: function ( mag ) {
+        console.log('no kick :(');
+      }
+    });
+
+  // Let's turn this kick on right away
+  kick.on();
+
+  dancer.onceAt( 10, function() {
+    // Let's set up some things once at 10 seconds
+  }).between( 30, 60, function() {
+    // After 10s, let's do something on every frame for the first minute
+  }).after( 400, function() {
+    // After 60s, let's get this real and map a frequency to an object's y position
+    // Note that the instance of dancer is bound to "this"
+    object.y = this.getFrequency( 400 );
+  }).onceAt( 800, function() {
+    // After 120s, we'll turn the kick off as another object's y position is still being mapped from the previous "after" method
+    kick.off();
+  }).load( a ); // And finally, lets pass in our Audio element to load
+
+  // dancer.play();
+
+  var cameraControls = new THREE.LeapCameraControls(camera);
+  Leap.loop(function(frame){
+  // maybe some modifications to your scene
+  // ...
+
+  cameraControls.update(frame); // rotating, zooming & panning
+  renderer.render(scene, camera);
+});
+// }
+
+
+
+
+
+
+
 
 </script>
 </html>
