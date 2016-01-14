@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+  <link rel="stylesheet" href="style/style.css">
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+  <script src="dance.js"></script>
+  <script type="text/javascript" src="js/Detector.js"></script>
+    <!-- // <script type="text/javascript" src="js/jquery.min.js"></script> -->
+    <!-- // <script type="text/javascript" src="js/three.min.js"></script> -->
+    <!-- // <script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r69/three.js"></script> -->
+    <script src="
+https://cdnjs.cloudflare.com/ajax/libs/three.js/r73/three.js"></script>
+    <script type="text/javascript" src="js/leap.min.js"></script>
+    <!-- // <script type="text/javascript" src="js/leap.min.js"></script> -->
+    
+    <!-- // <script src="//js.leapmotion.com/leap-plugins-0.1.11.js"></script> -->
+    <script type="text/javascript" src="js/LeapCameraControls.js"></script>
+    <script type="text/javascript" src="js/leap-plugins-0.1.11.js"></script>
+
+    <script type="text/javascript" src="js/LeapObjectControls.js"></script>
+    <script src="js/OrbitControls.js"></script>
+    <script src="js/leap.rigged-hand-0.1.7.js"></script>
+    <script src="js/tween.js"></script>
+    <script src="js/stats.js"></script>
+
+
+
+  <!-- // <script src="//js.leapmotion.com/leap-0.6.4.js"></script> -->
+<!-- 
+   <script src="//js.leapmotion.com/leap-0.4.3.js"></script>
+  // <script src="js/leap-plugins-0.1.11pre.js"></script> -->
+
+  <script src="js/leap-widgets-0.1.0.min.js"></script>
+
+</head>
+<body>
+  <div id="navBar" style="position:absolute; top: 100px; left: 100px; width: 50px; height: 50px; background: #FFFFFF; padding: 1em; font-size: 3em;">
+      <div id="playButton" style=""></div>
+      <p id="scoreDisplay"></p>
+    </div>
+
+  <canvas id="canvasID" style="width: 100%; height: 100%;">
+  
+</body>
+
+<script>
+var score = 0;
+var projector;
+var objects = [], objectsControls = [], cameraControls;
+var coords1, coords2, coords3;
+var lastControlsIndex = -1, controlsIndex = -1, index = -1;
+var position;
+var target;
+var tween, tweenBack;
+
+function setScore() {
+  $('#scoreDisplay').text(score)
+}
+
+
+// Three.js and Tween.js code ---------------------
+var canvas = document.getElementById("canvasID");
+renderer = new THREE.WebGLRenderer({ canvas: canvas,  alpha: true});
+renderer.setClearColor( 0xffffff, 0);
+// var renderer = new THREE.WebGLRenderer();
+renderer.setSize( 3000, 3000 );
+document.body.appendChild( renderer.domElement );
+
+  var scene = new THREE.Scene();
+
+       camera = new THREE.PerspectiveCamera(
+        100,         // Field of view
+        1000/1000,  // Aspect ratio
+        1,        // Near
+        1000       // Far
+    );
+    // renderer.setSize(10000,10000)
+    // camera.position.set( -15, 10, 10 );
+    // camera.position.set( 0.0003427083089840773, 493.2183700499229, 1.0334888127655448 );
+
+    camera.position.set( 0,  100, 500 );
+    camera.lookAt( scene.position );
+
+// Tile code ------------------------------
+
+
+
+
+
+// LeapMotion code ------------------------------
+    var cameraControls = new THREE.LeapCameraControls(camera);
+
+    var axisHelper = new THREE.AxisHelper( 100 );
+
+  scene.add( axisHelper );
+  axisHelper.position.y = 100;
+
+  var controls = new THREE.OrbitControls( camera, renderer.domElement );
+  
+
+Leap.loop(function(frame){
+  // maybe some modifications to your scene
+
+  // cameraControls.update(frame) // rotating, zooming & panning
+// renderer.render(scene, camera)
+}).use('riggedHand', {
+        dotsMode: false,
+        parent: scene,
+        renderFn: function(){
+          renderer.render(scene, camera);
+        }});
+
+
+// var planeMesh = new THREE.Mesh(
+//   new THREE.PlaneGeometry(0.1, 0.2),
+//   new THREE.MeshPhongMaterial()
+// );
+// scene.add(planeMesh);
+
+// var plane = new InteractablePlane(planeMesh, Leap.loopController, {moveX: false, moveY: false, moveZ: true});
+
+var planeGeo = new THREE.PlaneGeometry(100, 100);
+  var material = new THREE.MeshPhongMaterial({side: THREE.DoubleSide});
+  var planeMesh = new THREE.Mesh(planeGeo, material);
+  // planeMesh.position.setX(0);
+  // planeMesh.position.setY(200);
+  planeMesh.name = "planeMesh";
+
+  longThrow = 100;
+  // var base = new THREE.Mesh(new THREE.BoxGeometry(100, longThrow, 0), new THREE.MeshPhongMaterial({color: 0x222222}));
+  // base.position.set(0.05, 0.05, -0.1);
+  // base.rotateY(Math.PI / 4);
+
+  planeMesh.position.set(
+    0,
+    planeMesh.geometry.parameters.height / 2 - longThrow / 2,
+    // longThrow / 2 + 0.0002
+    longThrow / 2 + 10
+  );
+  // base.add(planeMesh);
+  // planeMesh.rotation.x = Math.PI / .5;
+  planeMesh.position.y = 80;
+  // scene.add(base);
+  // scene.add(planeMesh);
+
+
+  // var plane = new InteractablePlane(planeMesh, Leap.loopController, {moveZ: true, moveX: false, moveY: false});
+  // var plane = new pushButton(planeMesh, Leap.loopController, {moveZ: true, moveX: false, moveY: false});
+//   var button = new PushButton(
+
+//   new InteractablePlane(planeMesh, Leap.loopController)
+
+// ).on('press', function(mesh){
+//  console.log('here')
+//   // mesh.material.color.setHex(0xff0000);
+//   planeMesh.material.color.setHex(0xeeeeee);
+
+// }).on('release', function(mesh){
+
+ 
+//   scene.remove(planeMesh)
+// });
+
+  function createTile(tileName) {
+var circleGeo = new THREE.CircleGeometry(100, 100, 100);
+  buttonMesh = new THREE.Mesh(circleGeo, material.clone());
+  buttonMesh.name = tileName;
+
+  // buttonMesh.position.set(100, , -0.1);
+  buttonMesh.position.y = 120;
+  // buttonMesh.rotation.x = Math.PI / 2;
+
+  
+  var roundButton = new PushButton(
+    // for now, constructing with moveX and moveY turned off so that doesn't try and watch for XY intersections,
+    // which won't work for circles.
+    // todo - have a setter for moveX and moveY, so that proximities can be turned on and off.
+    // Note that we have to bind press and release effects to each individual button. This is a long way from CSS rules still. 
+    new InteractablePlane(buttonMesh, Leap.loopController, {moveX: false, moveY: false})
+  ).on('press', function(mesh){
+        mesh.material.color.setHex(0xccccff);
+    console.log('here')
+      scene.remove(mesh)
+  }).on('release', function(mesh){
+    // console.log('there')
+    score += 1;
+    mesh.material.color.setHex(0xeeeeee);
+
+  });
+
+  scene.add(buttonMesh)
+  tile(tileName);
+  animate();
+
+
+}
+
+function
+
+function tile(objectName) {
+    position = {x: 100, y: 100, rotation: 0};
+    // target = document.getElementById('target');
+    target = scene.getObjectByName(objectName);
+    // tween = new TWEEN.Tween(position)
+    //   .to({x: 700, y: 200, rotation: 359}, 2000)
+    //   .delay(100)
+    //   .easing(TWEEN.Easing.Elastic.InOut)
+    //   .onUpdate(update);
+      tween = new TWEEN.Tween(position)
+      .to({x: 700, y: 200, rotation: 359}, 800)
+      .delay(1000)
+      // .easing(TWEEN.Easing.Elastic.InOut)
+      .onUpdate(update);
+
+      // tweenBack = new TWEEN.Tween(position)
+      //     .to({x: 100, y: 100, rotation: 0}, 3000)
+      //     .easing(TWEEN.Easing.Elastic.InOut)
+      //     .onUpdate(update);
+      //   tween.chain(tweenBack);
+      //   tweenBack.chain(tween);
+        tween.start();
+}
+
+      
+
+        function animate( time ) {
+        requestAnimationFrame( animate );
+        TWEEN.update( time );
+      }
+
+      function update() {
+        // target.style.left = position.x + 'px';
+        // target.style.top = position.y + 'px';
+        // target.style.webkitTransform = 'rotate(' + Math.floor(position.rotation) + 'deg)';
+        // target.style.MozTransform = 'rotate(' + Math.floor(position.rotation) + 'deg)';
+      }
+
+// Dancer.js code ------------------------------
+
+var a = new Audio();
+  a.src = 'test.mp3';
+
+
+var
+    // audio  = document.getElementsByTagName('audio')[0],
+    dancer = new Dancer(),
+    kickLow = dancer.createKick({
+      threshold: .1,
+      onKick: function ( mag ) {
+        // console.log('Kick low');
+        createTile('tileName')
+        
+
+      },
+      offKick: function ( mag ) {
+        // console.lxog('no kick low');
+        
+      }
+    }),
+    kickHigh = dancer.createKick({
+      threshold: .5,
+      onKick: function ( mag ) {
+
+        // console.log('Kick high');
+        
+      },
+      offKick: function ( mag ) {
+        // console.log('no kick high');
+         
+      }
+    }),
+    kickBreak = dancer.createKick({
+      threshold: .25,
+      onKick: function ( mag ) {
+
+        // console.log('Kick brake');
+        
+      },
+      offKick: function ( mag ) {
+        // console.log('no kick brake');
+      }
+    })
+
+  // Let's turn this kick on right away
+  kickLow.on();
+  kickHigh.on();
+
+  dancer.onceAt( 1, function() {
+    // Let's set up some things once at 10 seconds
+    
+  }).between( 52, 75, function() {
+    kickLow.off();
+    kickHigh.off();
+    kickBreak.on();
+
+    // After 10s, let's do something on every frame for the first minute
+    // console.log(this.getFrequency( 400 ));
+  }).after( 76, function() {
+    kickBreak.off();
+
+    kickLow.on();
+    kickHigh.on();
+    // After 60s, let's get this real and map a frequency to an object's y position
+    // Note that the instance of dancer is bound to "this"
+  }).onceAt( 800, function() {
+    // After 120s, we'll turn the kick off as another object's y position is still being mapped from the previous "after" method
+    kick.off();
+  }).load( a ); // And finally, lets pass in our Audio element to load
+    // object.y = this.getFrequency( 400 );
+
+  // dancer.play();
+
+
+
+window.onload = function() {
+  $('canvas').css('width', '100%');
+  $('canvas').css('height', '100%');
+  setScore()
+  play()
+  }
+
+  function play() {
+  $('#playButton').text('PLAY')
+  $('#playButton').click('on', function(){
+  dancer.play()
+  pause()
+  })
+}
+  function pause() {
+  $('#playButton').text('PAUSE').click('on', function(){
+    dancer.pause()
+    play()
+  })
+}
+
+
+
+
+  
+
+
+
+
+
+</script>
