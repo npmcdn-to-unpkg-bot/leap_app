@@ -54,10 +54,9 @@ var lastControlsIndex = -1, controlsIndex = -1, index = -1;
 var position;
 var target;
 var tween, tweenBack;
+var timeoutID;
 
-function setScore() {
-  $('#scoreDisplay').text(score)
-}
+
 
 
 // Three.js and Tween.js code ---------------------
@@ -109,6 +108,7 @@ Leap.loop(function(frame){
         dotsMode: false,
         parent: scene,
         renderFn: function(){
+          setScore()
           renderer.render(scene, camera);
         }});
 
@@ -164,7 +164,7 @@ var planeGeo = new THREE.PlaneGeometry(100, 100);
 // });
 
   function createTile(tileName) {
-var circleGeo = new THREE.CircleGeometry(100, 100, 100);
+var circleGeo = new THREE.CircleGeometry(50, 50, 50);
   buttonMesh = new THREE.Mesh(circleGeo, material.clone());
   buttonMesh.name = tileName;
 
@@ -186,18 +186,22 @@ var circleGeo = new THREE.CircleGeometry(100, 100, 100);
   }).on('release', function(mesh){
     // console.log('there')
     score += 1;
-    mesh.material.color.setHex(0xeeeeee);
+    buttonMesh.material.color.setHex(0xeeeeee);
 
   });
 
-  scene.add(buttonMesh)
-  tile(tileName);
-  animate();
+  scene.add(buttonMesh);
+  // tile(TileName);
+  // animate();
 
 
 }
 
-function
+function removeTile(object) {
+ 
+  scene.remove(object)
+  
+}
 
 function tile(objectName) {
     position = {x: 100, y: 100, rotation: 0};
@@ -239,6 +243,17 @@ function tile(objectName) {
 
 // Dancer.js code ------------------------------
 
+// var timeoutID;
+
+// function startTile() {
+
+//   timeoutID = window.setTimeout(endTile, 100);
+// }
+
+// function endTile() {
+//   removeTile('test1')
+// }
+
 var a = new Audio();
   a.src = 'test.mp3';
 
@@ -247,27 +262,30 @@ var
     // audio  = document.getElementsByTagName('audio')[0],
     dancer = new Dancer(),
     kickLow = dancer.createKick({
-      threshold: .1,
+      threshold: .5,
+      decay: 4,
       onKick: function ( mag ) {
         // console.log('Kick low');
-        createTile('tileName')
+        removeTile('test1')
         
 
       },
       offKick: function ( mag ) {
         // console.lxog('no kick low');
-        
+        // removeTile('test1')
       }
     }),
     kickHigh = dancer.createKick({
-      threshold: .5,
+      threshold: .3,
+      decay: 10,
       onKick: function ( mag ) {
-
+        createTile('test1')
         // console.log('Kick high');
         
       },
       offKick: function ( mag ) {
         // console.log('no kick high');
+        // removeTile('test1')
          
       }
     }),
@@ -291,9 +309,9 @@ var
     // Let's set up some things once at 10 seconds
     
   }).between( 52, 75, function() {
-    kickLow.off();
-    kickHigh.off();
-    kickBreak.on();
+    // kickLow.off();
+    // kickHigh.off();
+    // kickBreak.on();
 
     // After 10s, let's do something on every frame for the first minute
     // console.log(this.getFrequency( 400 ));
@@ -314,12 +332,10 @@ var
 
 
 
-window.onload = function() {
-  $('canvas').css('width', '100%');
-  $('canvas').css('height', '100%');
-  setScore()
-  play()
-  }
+
+  function setScore() {
+  $('#scoreDisplay').text(score)
+}
 
   function play() {
   $('#playButton').text('PLAY')
@@ -336,9 +352,15 @@ window.onload = function() {
 }
 
 
+window.onload = function() {
+  $('canvas').css('width', '100%');
+  $('canvas').css('height', '100%');
+  setScore()
+  play()
+  }
 
 
-  
+
 
 
 
