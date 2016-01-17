@@ -5,6 +5,8 @@
   <title>Document</title>
 </head>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/1.5.2/css/ionicons.min.css">
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css">
 
   <link rel="stylesheet" href="css/style.css">
 
@@ -17,12 +19,15 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript" src="js/leap.min.js"></script>
+    <!-- / <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/jquery.magnific-popup.min.js"></script> -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/jquery.magnific-popup.min.js"></script>
+
 
 
 <body>
   
 <h2 class="heading">NEWS HEADLINES</h2>
-<div class="gallery js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true, "pageDots": false, "prevNextButtons": false }'>
+<div class="gallery js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true, "pageDots": false, "prevNextButtons": false, "draggable": false }'>
 </div>
 <div class="details">
   
@@ -48,6 +53,7 @@
 
 var urlList = ["http://www.abc.net.au/news/feed/45924/rss.xml", "http://www.abc.net.au/news/feed/46800/rss.xml", "http://www.abc.net.au/news/feed/51892/rss.xml", "http://www.abc.net.au/news/feed/52278/rss.xml", "http://www.abc.net.au/news/feed/52498/rss.xml", "http://www.abc.net.au/news/feed/54242/rss.xml", "http://www.abc.net.au/news/feed/50990/rss.xml", "http://www.abc.net.au/news/feed/52764/rss.xml", "http://www.abc.net.au/news/feed/54702/rss.xml", "http://www.abc.net.au/news/feed/50042/rss.xml", "http://www.abc.net.au/news/feed/48320/rss.xml", "http://www.abc.net.au/news/feed/53408/rss.xml"]
 var feedObject;
+var flkty;
 google.load("feeds", "1");
 
 function pickUrl(number) {
@@ -55,6 +61,7 @@ function pickUrl(number) {
 }
 
     function getRss() {
+
       var feed = new google.feeds.Feed(pickUrl(0));
       // var feed = new google.feeds.Feed(feedUrl);
       
@@ -81,7 +88,8 @@ function pickUrl(number) {
               class: 'gallery-cell',
               alt: i
                 }).append( $('<img>', { 
-                    src: image
+                    src: image,
+                    href: image
                 }))
                 // var $cellElems = $('<div class="gallery-cell">...</div>');
                 var $cellElems = temp;
@@ -105,8 +113,12 @@ function pickUrl(number) {
     }
 
   
+// $gallery.flickity( 'remove', elements )
+// $gallery.flickity('reloadCells')
+// var cellElements = $gallery.flickity('getCellElements')
 
-
+// flkty.selectedIndex
+// flkty.selectedElement
  
 google.setOnLoadCallback(getRss);
 
@@ -121,58 +133,7 @@ google.setOnLoadCallback(getRss);
 $(".slide").velocity("transition.expandIn", { stagger: 150 });
 
 var $gallery = $('.gallery')
-var $galleryNav = $('.galleryNav')
-// 1st gallery, main
-// $('.gallery-main').flickity();
-// 2nd gallery, navigation
-$('.galleryNav').flickity({
-  asNavFor: '.gallery',
-  contain: true,
-  pageDots: false
-});
-// Leap.loop({enableGestures: true}, function(frame)
-// {
-    // if (frame.gestures.length > 0) {
-    //     var g = frame.gestures[0];
-    //     if (g.type === 'swipe' && g.state === 'stop') {
-    //         // Get the absolute movement along the x and y axis
-    //         var xMov = Math.abs(g.direction[0]);
-    //         var yMov = Math.abs(g.direction[1]);
-    //         if (xMov > 0.3) {
-    //             if (g.direction[0] < 0) {
-    //                 // onLeftSwipe();
-    //                 console.log('left')
-    //                 $gallery.flickity( 'previous')
-    //             }
-    //             else {
-    //                 // onRightSwipe();
-    //                 console.log('right')
-    //                 $gallery.flickity( 'next')
-    //             }
-    //         }
-    //         else if (yMov > 0.3) {
-    //             if (g.direction[1] < 0) {
-    //                 // onDownSwipe();
-    //                 console.log('down')
-    //             }
-    //             else {
-    //                 // onUpSwipe();
-    //                 console.log('up ')
-                    
-    //             }
-    //         }
-    //     }
-    // }
-// })
-// }
-window.onload = function() {
-  setText()
-  enableLoo()
-}
-
-
-
-function setText() {
+function setText2() {
   var imageNumber = $('.is-selected').attr("alt");
   $('.details').empty()
    $('<p>', { 
@@ -181,7 +142,20 @@ function setText() {
                 }).appendTo('.details')
 }
 
-function enableLoo() {
+
+window.onload = function() {
+  function setText() {
+  var imageNumber = $('.is-selected').attr("alt");
+  $('.details').empty()
+   $('<p>', { 
+              class: 'text',
+              text: feedObject.feed.entries[imageNumber].contentSnippet
+                }).appendTo('.details')
+}
+
+
+
+
 Leap.loop({enableGestures: true}, function(frame){
   if (frame.gestures.length > 0) {
         var g = frame.gestures[0];
@@ -229,6 +203,10 @@ Leap.loop({enableGestures: true}, function(frame){
               break;
           case "screenTap":
               console.log("Screen Tap Gesture");
+              $('.is-selected').magnificPopup({
+  type: 'image'
+  // other options
+});
               break;
           case "swipe":
               // console.log("Swipe Gesture");
@@ -237,6 +215,9 @@ Leap.loop({enableGestures: true}, function(frame){
     });
   }
 });
+flkty = $gallery.data('flickity');
+flkty.selectedElement
+setText2()
 }
 
 
