@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Document</title>
+</head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/1.5.2/css/ionicons.min.css">
+
+  <link rel="stylesheet" href="style/style2.css">
+
+  <script type="text/javascript" src="js/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="https://npmcdn.com/flickity@1.1/dist/flickity.min.css">
+
+<script src="https://npmcdn.com/flickity@1.1/dist/flickity.pkgd.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript" src="js/leap.min.js"></script>
+
+
+<body>
+  
+<h2 class="heading">NEWS HEADLINES</h2>
+<div class="gallery js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true, "pageDots": false, "prevNextButtons": false }'>
+</div>
+<div class="details">
+  
+</div>
+
+
+  
+</body>
+
+<script>
+// var sport = "http://www.abc.net.au/news/feed/45924/rss.xml" 
+// var ent = "http://www.abc.net.au/news/feed/46800/rss.xml"    
+// var bus = "http://www.abc.net.au/news/feed/51892/rss.xml"
+// var world = "http://www.abc.net.au/news/feed/52278/rss.xml"
+// var nsw = "http://www.abc.net.au/news/feed/52498/rss.xml"
+// var vic = "http://www.abc.net.au/news/feed/54242/rss.xml"
+// var ql = "http://www.abc.net.au/news/feed/50990/rss.xml"
+// var wa = "http://www.abc.net.au/news/feed/52764/rss.xml"
+// var sa = "http://www.abc.net.au/news/feed/54702/rss.xml"
+// var tas = "http://www.abc.net.au/news/feed/50042/rss.xml"
+// var act = "http://www.abc.net.au/news/feed/48320/rss.xml"
+// var nt = "http://www.abc.net.au/news/feed/53408/rss.xml"
+
+var urlList = ["http://www.abc.net.au/news/feed/45924/rss.xml", "http://www.abc.net.au/news/feed/46800/rss.xml", "http://www.abc.net.au/news/feed/51892/rss.xml", "http://www.abc.net.au/news/feed/52278/rss.xml", "http://www.abc.net.au/news/feed/52498/rss.xml", "http://www.abc.net.au/news/feed/54242/rss.xml", "http://www.abc.net.au/news/feed/50990/rss.xml", "http://www.abc.net.au/news/feed/52764/rss.xml", "http://www.abc.net.au/news/feed/54702/rss.xml", "http://www.abc.net.au/news/feed/50042/rss.xml", "http://www.abc.net.au/news/feed/48320/rss.xml", "http://www.abc.net.au/news/feed/53408/rss.xml"]
+var feedObject;
+google.load("feeds", "1");
+
+function pickUrl(number) {
+  return urlList[number];
+}
+
+    function getRss() {
+      var feed = new google.feeds.Feed(pickUrl(0));
+      // var feed = new google.feeds.Feed(feedUrl);
+      
+      feed.setNumEntries(30)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+        feedObject = result;
+            // image = feedObject.feed.entries[i].mediaGroups[0].contents[0].url;
+          for (var i = 0; i < result.feed.entries.length; i++) {
+            if (i === 0){
+              var temp =  $('<p>', { 
+              class: 'text',
+              text: feedObject.feed.entries[0].contentSnippet
+                }).appendTo('.details')
+            }
+
+            if (!feedObject.feed.entries[i].mediaGroups[0].contents[0].url.error){
+            image = feedObject.feed.entries[i].mediaGroups[0].contents[0].url;
+          }else {
+            image: "http://placehold.it/350x150"
+          }
+           var temp =  $('<div>', { 
+              class: 'gallery-cell',
+              alt: i
+                }).append( $('<img>', { 
+                    src: image
+                }))
+                // var $cellElems = $('<div class="gallery-cell">...</div>');
+                var $cellElems = temp;
+                $gallery.flickity( 'append', $cellElems );
+                // $galleryNav.flickity( 'append', $cellElems );
+
+
+            // var img = $('<img class="gallery-cell" alt="orange tree">'); //Equivalent: $(document.createElement('img'))
+            // img.attr('src', image);
+            // img.appendTo('flickity-slider')
+            // var entry = result.feed.entries[i];
+            // var div = document.createElement("div");
+            // div.appendChild(document.createTextNode(entry.title));
+            // container.appendChild(div);
+
+
+          }
+
+        }
+      });
+    }
+
+  
+
+
+ 
+google.setOnLoadCallback(getRss);
+
+
+// window.onload = function() {
+  // $("#featured-courses").flickity({
+  //   wrapAround: true,
+  // pageDots: false,
+  //   arrowShape: "M31.308,14.241L3.2,43.667c-1.681,1.625-2.522,3.839-2.522,6.277s0.841,4.624,2.522,6.277l28.108,29.538 c3.335,3.503,8.772,3.503,12.106,0s3.335-9.164,0-12.667l-13.48-14.124h60.813c4.736,0,8.575-4.007,8.575-8.968 c0-4.96-3.839-8.968-8.575-8.968H29.934l13.508-14.124c3.335-3.503,3.335-9.164,0-12.667C40.079,10.738,34.671,10.738,31.308,14.241z"
+// });
+// Velocity.js
+$(".slide").velocity("transition.expandIn", { stagger: 150 });
+
+var $gallery = $('.gallery')
+var $galleryNav = $('.galleryNav')
+// 1st gallery, main
+// $('.gallery-main').flickity();
+// 2nd gallery, navigation
+$('.galleryNav').flickity({
+  asNavFor: '.gallery',
+  contain: true,
+  pageDots: false
+});
+// Leap.loop({enableGestures: true}, function(frame)
+// {
+    // if (frame.gestures.length > 0) {
+    //     var g = frame.gestures[0];
+    //     if (g.type === 'swipe' && g.state === 'stop') {
+    //         // Get the absolute movement along the x and y axis
+    //         var xMov = Math.abs(g.direction[0]);
+    //         var yMov = Math.abs(g.direction[1]);
+    //         if (xMov > 0.3) {
+    //             if (g.direction[0] < 0) {
+    //                 // onLeftSwipe();
+    //                 console.log('left')
+    //                 $gallery.flickity( 'previous')
+    //             }
+    //             else {
+    //                 // onRightSwipe();
+    //                 console.log('right')
+    //                 $gallery.flickity( 'next')
+    //             }
+    //         }
+    //         else if (yMov > 0.3) {
+    //             if (g.direction[1] < 0) {
+    //                 // onDownSwipe();
+    //                 console.log('down')
+    //             }
+    //             else {
+    //                 // onUpSwipe();
+    //                 console.log('up ')
+                    
+    //             }
+    //         }
+    //     }
+    // }
+// })
+// }
+window.onload = function() {
+  setText()
+  enableLoo()
+}
+
+
+
+function setText() {
+  var imageNumber = $('.is-selected').attr("alt");
+  $('.details').empty()
+   $('<p>', { 
+              class: 'text',
+              text: feedObject.feed.entries[imageNumber].contentSnippet
+                }).appendTo('.details')
+}
+
+function enableLoo() {
+Leap.loop({enableGestures: true}, function(frame){
+  if (frame.gestures.length > 0) {
+        var g = frame.gestures[0];
+        if (g.type === 'swipe' && g.state === 'stop') {
+            // Get the absolute movement along the x and y axis
+            var xMov = Math.abs(g.direction[0]);
+            var yMov = Math.abs(g.direction[1]);
+            if (xMov > 0.3) {
+                if (g.direction[0] < 0) {
+                    // onLeftSwipe();
+                    console.log('left')
+                    $gallery.flickity( 'previous')
+                    setText()
+                }
+                else {
+                    // onRightSwipe();
+                    console.log('right')
+                    $gallery.flickity( 'next')
+                    setText()
+                }
+            }
+            else if (yMov > 0.3) {
+                if (g.direction[1] < 0) {
+                    // onDownSwipe();
+                    console.log('down')
+                }
+                else {
+                    // onUpSwipe();
+                    console.log('up ')
+                    
+                }
+            }
+        }
+    }
+  if(frame.valid && frame.gestures.length > 0){
+    frame.gestures.forEach(function(gesture){
+        switch (gesture.type){
+          case "circle":
+              console.log("Circle Gesture");
+              // location.reload();
+              
+              break;
+          case "keyTap":
+              console.log("Key Tap Gesture");
+              break;
+          case "screenTap":
+              console.log("Screen Tap Gesture");
+              break;
+          case "swipe":
+              // console.log("Swipe Gesture");
+              break;
+        }
+    });
+  }
+});
+}
+
+
+</script>
+</html>
