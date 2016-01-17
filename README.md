@@ -1,0 +1,1 @@
+Leap app that take news feeds and allows the user to browse the feed with Leap Motion gestures.   
