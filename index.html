@@ -4,55 +4,44 @@
   <meta charset="UTF-8">
   <title>Document</title>
 </head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/1.5.2/css/ionicons.min.css">
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.css"> -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/magnific-popup.min.css">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/1.5.2/css/ionicons.min.css">
   <link rel="stylesheet" href="css/style.css">
-
   <script type="text/javascript" src="js/jquery.min.js"></script>
-
-    <link rel="stylesheet" href="https://npmcdn.com/flickity@1.1/dist/flickity.min.css">
-
-<script src="https://npmcdn.com/flickity@1.1/dist/flickity.pkgd.min.js"></script>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
-<script type="text/javascript" src="https://www.google.com/jsapi"></script>
-    <script type="text/javascript" src="js/leap.min.js"></script>
-    <!-- / <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/jquery.magnific-popup.min.js"></script> -->
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.0.1/jquery.magnific-popup.min.js"></script>
-
-
-
-
+  <link rel="stylesheet" href="https://npmcdn.com/flickity@1.1/dist/flickity.min.css">
+  <script src="https://npmcdn.com/flickity@1.1/dist/flickity.pkgd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.2/velocity.min.js"></script>
+  <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+  <script type="text/javascript" src="js/leap.min.js"></script>
 <body>
-  
-<h2 class="heading">NEWS HEADLINES</h2>
-<div class="gallery js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true, "pageDots": false, "prevNextButtons": false, "draggable": false }'>
+<div class="conatiner">
+    <h2 class="heading"></h2>
+    <div class="gallery js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true, "pageDots": false, "prevNextButtons": false, "draggable": false }'>
+    </div>
+    <a class="link-title link"><h3 class="title"></h3></a>
+    <h5 class="date"></h5>
+    <div class="details"></div>
+    <a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn pock" data-lang="en"></a>
+    <p class='pocket-text'></p>
 </div>
-<a class="link-title link"><h3 class="title"></h3></a>
-<h5 class="date"></h5>
-<div class="details"></div>
-<a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn pock" data-lang="en"></a>
-
   
 </body>
 
 <script>
-// var sport = "http://www.abc.net.au/news/feed/45924/rss.xml" 
-// var ent = "http://www.abc.net.au/news/feed/46800/rss.xml"    
-// var bus = "http://www.abc.net.au/news/feed/51892/rss.xml"
-// var world = "http://www.abc.net.au/news/feed/52278/rss.xml"
-// var nsw = "http://www.abc.net.au/news/feed/52498/rss.xml"
-// var vic = "http://www.abc.net.au/news/feed/54242/rss.xml"
-// var ql = "http://www.abc.net.au/news/feed/50990/rss.xml"
-// var wa = "http://www.abc.net.au/news/feed/52764/rss.xml"
-// var sa = "http://www.abc.net.au/news/feed/54702/rss.xml"
-// var tas = "http://www.abc.net.au/news/feed/50042/rss.xml"
-// var act = "http://www.abc.net.au/news/feed/48320/rss.xml"
-// var nt = "http://www.abc.net.au/news/feed/53408/rss.xml"
 
-var urlList = ["http://www.abc.net.au/news/feed/45924/rss.xml", "http://www.abc.net.au/news/feed/46800/rss.xml", "http://www.abc.net.au/news/feed/51892/rss.xml", "http://www.abc.net.au/news/feed/52278/rss.xml", "http://www.abc.net.au/news/feed/52498/rss.xml", "http://www.abc.net.au/news/feed/54242/rss.xml", "http://www.abc.net.au/news/feed/50990/rss.xml", "http://www.abc.net.au/news/feed/52764/rss.xml", "http://www.abc.net.au/news/feed/54702/rss.xml", "http://www.abc.net.au/news/feed/50042/rss.xml", "http://www.abc.net.au/news/feed/48320/rss.xml", "http://www.abc.net.au/news/feed/53408/rss.xml"]
+var urlList = [
+    "http://www.abc.net.au/news/feed/45924/rss.xml",
+    "http://www.abc.net.au/news/feed/46800/rss.xml",
+    "http://www.abc.net.au/news/feed/51892/rss.xml", 
+    "http://www.abc.net.au/news/feed/52278/rss.xml",
+    "http://www.abc.net.au/news/feed/52498/rss.xml",
+    "http://www.abc.net.au/news/feed/54242/rss.xml",
+    "http://www.abc.net.au/news/feed/50990/rss.xml",
+    "http://www.abc.net.au/news/feed/52764/rss.xml",
+    "http://www.abc.net.au/news/feed/54702/rss.xml",
+    "http://www.abc.net.au/news/feed/50042/rss.xml",
+    "http://www.abc.net.au/news/feed/48320/rss.xml",
+    "http://www.abc.net.au/news/feed/53408/rss.xml"
+    ]
 var feedObject;
 var flkty;
 var tapKeyNumber = 1;
@@ -80,6 +69,7 @@ function pickUrl(number) {
           // var container = document.getElementById("feed");
         feedObject = result;
         currentFeed = feedObject
+        $('.heading').empty().text(feedObject.feed.title)
             // image = feedObject.feed.entries[i].mediaGroups[0].contents[0].url;
           for (var i = 0; i < result.feed.entries.length; i++) {
             if (i === 0){
@@ -264,7 +254,7 @@ google.setOnLoadCallback(getRss9);
 google.setOnLoadCallback(getRss9);
 google.setOnLoadCallback(getRss10);
 google.setOnLoadCallback(getRss11);
-google.setOnLoadCallback(getRss12);
+// google.setOnLoadCallback(getRss12);
 
 
 
@@ -291,6 +281,7 @@ function setBanner(rssTitle) {
   $('.date').text(currentFeed.feed.entries[imageNumber].publishedDate);
   $('.title').text(currentFeed.feed.entries[imageNumber].title)
   $('.link-title').attr('href', currentFeed.feed.entries[imageNumber].link);
+  // $('.details').fadeIn( "slow" );
   $('.details').empty()
   // $("img").wrap("<a href='http://www.google.com'></a>")
    $('<p>', { 
@@ -411,7 +402,7 @@ Leap.loop({enableGestures: true}, function(frame){
                 if (g.direction[1] < 0) {
                     // onDownSwipe();
                     console.log('down')
-                    $('#pocket-button-0').click();
+                    $('.pocket-text').text('Added To Pocket').fadeIn( "slow" );
                 }
                 else {
                     // onUpSwipe();

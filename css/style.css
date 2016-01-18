@@ -38,6 +38,10 @@ body { font-family: sans-serif; }
 
 }
 
+.conatiner {
+  margin-top: 15%;
+}
+
 .heading {
   font-weight: 500;
   font-size: 2em;
