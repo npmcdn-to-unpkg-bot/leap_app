@@ -24,15 +24,16 @@
 
 
 
+
 <body>
   
 <h2 class="heading">NEWS HEADLINES</h2>
 <div class="gallery js-flickity" data-flickity-options='{ "imagesLoaded": true, "wrapAround": true, "pageDots": false, "prevNextButtons": false, "draggable": false }'>
 </div>
-<div class="details">
-  
-</div>
-
+<a class="link-title link"><h3 class="title"></h3></a>
+<h5 class="date"></h5>
+<div class="details"></div>
+<a data-pocket-label="pocket" data-pocket-count="none" class="pocket-btn pock" data-lang="en"></a>
 
   
 </body>
@@ -54,6 +55,14 @@
 var urlList = ["http://www.abc.net.au/news/feed/45924/rss.xml", "http://www.abc.net.au/news/feed/46800/rss.xml", "http://www.abc.net.au/news/feed/51892/rss.xml", "http://www.abc.net.au/news/feed/52278/rss.xml", "http://www.abc.net.au/news/feed/52498/rss.xml", "http://www.abc.net.au/news/feed/54242/rss.xml", "http://www.abc.net.au/news/feed/50990/rss.xml", "http://www.abc.net.au/news/feed/52764/rss.xml", "http://www.abc.net.au/news/feed/54702/rss.xml", "http://www.abc.net.au/news/feed/50042/rss.xml", "http://www.abc.net.au/news/feed/48320/rss.xml", "http://www.abc.net.au/news/feed/53408/rss.xml"]
 var feedObject;
 var flkty;
+var tapKeyNumber = 1;
+var banner;
+var numberOfRssEntries = 30;
+var getFeedFromList;
+var currentFeed;
+var swipeDirection;
+var articleLink;
+var articleTitle;
 google.load("feeds", "1");
 
 function pickUrl(number) {
@@ -65,45 +74,45 @@ function pickUrl(number) {
       var feed = new google.feeds.Feed(pickUrl(0));
       // var feed = new google.feeds.Feed(feedUrl);
       
-      feed.setNumEntries(30)
+      feed.setNumEntries(numberOfRssEntries)
       feed.load(function(result) {
         if (!result.error) {
           // var container = document.getElementById("feed");
         feedObject = result;
+        currentFeed = feedObject
             // image = feedObject.feed.entries[i].mediaGroups[0].contents[0].url;
           for (var i = 0; i < result.feed.entries.length; i++) {
             if (i === 0){
+              $('.date').text(currentFeed.feed.entries[i].publishedDate)
+              $('.title').text(currentFeed.feed.entries[i].title)
+              articleLink = currentFeed.feed.entries[i].link
+              // $("title").wrap("<a href="+ currentFeed.feed.entries[i].link + "'></a>")
+              $('.link-title').attr('href', currentFeed.feed.entries[i].link);
               var temp =  $('<p>', { 
               class: 'text',
               text: feedObject.feed.entries[0].contentSnippet
                 }).appendTo('.details')
             }
 
-            if (!feedObject.feed.entries[i].mediaGroups[0].contents[0].url.error){
-            image = feedObject.feed.entries[i].mediaGroups[0].contents[0].url;
+            if (feedObject.feed.entries[i].mediaGroups 
+                === undefined){
+              image = "http://placehold.it/350x150"
           }else {
-            image: "http://placehold.it/350x150"
+            image = feedObject.feed.entries[i].mediaGroups[0].contents[0].url;
+            
           }
-           var temp =  $('<div>', { 
+           var temp =  $('<a>', { 
               class: 'gallery-cell',
-              alt: i
+              alt: i,
+              href: feedObject.feed.entries[i].link
                 }).append( $('<img>', { 
                     src: image,
-                    href: image
+                    href: feedObject.feed.entries[i].link
                 }))
                 // var $cellElems = $('<div class="gallery-cell">...</div>');
                 var $cellElems = temp;
                 $gallery.flickity( 'append', $cellElems );
                 // $galleryNav.flickity( 'append', $cellElems );
-
-
-            // var img = $('<img class="gallery-cell" alt="orange tree">'); //Equivalent: $(document.createElement('img'))
-            // img.attr('src', image);
-            // img.appendTo('flickity-slider')
-            // var entry = result.feed.entries[i];
-            // var div = document.createElement("div");
-            // div.appendChild(document.createTextNode(entry.title));
-            // container.appendChild(div);
 
 
           }
@@ -112,15 +121,151 @@ function pickUrl(number) {
       });
     }
 
+    function getRss1() {
+      var feed = new google.feeds.Feed(pickUrl(1));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 1] = result;
+        }
+      });
+    }
+
+    function getRss2() {
+      var feed = new google.feeds.Feed(pickUrl(2));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 2] = result;
+        }
+      });
+    }
+    function getRss3() {
+      var feed = new google.feeds.Feed(pickUrl(3));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 3] = result;
+        }
+      });
+    }
+    function getRss4() {
+      var feed = new google.feeds.Feed(pickUrl(4));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 4] = result;
+        }
+      });
+    }
+    function getRss5() {
+      var feed = new google.feeds.Feed(pickUrl(5));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 5] = result;
+        }
+      });
+    }
+    function getRss6() {
+      var feed = new google.feeds.Feed(pickUrl(6));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 6] = result;
+        }
+      });
+    }
+    function getRss7() {
+      var feed = new google.feeds.Feed(pickUrl(7));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 7] = result;
+        }
+      });
+    }
+    function getRss8() {
+      var feed = new google.feeds.Feed(pickUrl(8));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 8] = result;
+        }
+      });
+    }
+    function getRss9() {
+      var feed = new google.feeds.Feed(pickUrl(9));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 9] = result;
+        }
+      });
+    }
+    function getRss10() {
+      var feed = new google.feeds.Feed(pickUrl(10));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 10] = result;
+        }
+      });
+    }
+    function getRss11() {
+      var feed = new google.feeds.Feed(pickUrl(11));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 11] = result;
+        }
+      });
+    }
+    function getRss12() {
+      var feed = new google.feeds.Feed(pickUrl(12));
+      feed.setNumEntries(numberOfRssEntries)
+      feed.load(function(result) {
+        if (!result.error) {
+          // var container = document.getElementById("feed");
+          window['feedObject' + 12] = result;
+        }
+      });
+    }
+
+
   
 // $gallery.flickity( 'remove', elements )
 // $gallery.flickity('reloadCells')
 // var cellElements = $gallery.flickity('getCellElements')
-
 // flkty.selectedIndex
 // flkty.selectedElement
  
 google.setOnLoadCallback(getRss);
+google.setOnLoadCallback(getRss1);
+google.setOnLoadCallback(getRss2);
+google.setOnLoadCallback(getRss3);
+google.setOnLoadCallback(getRss4);
+google.setOnLoadCallback(getRss5);
+google.setOnLoadCallback(getRss6);
+google.setOnLoadCallback(getRss7);
+google.setOnLoadCallback(getRss8);
+google.setOnLoadCallback(getRss9);
+google.setOnLoadCallback(getRss9);
+google.setOnLoadCallback(getRss10);
+google.setOnLoadCallback(getRss11);
+google.setOnLoadCallback(getRss12);
+
 
 
 // window.onload = function() {
@@ -133,28 +278,113 @@ google.setOnLoadCallback(getRss);
 $(".slide").velocity("transition.expandIn", { stagger: 150 });
 
 var $gallery = $('.gallery')
-function setText2() {
-  var imageNumber = $('.is-selected').attr("alt");
-  $('.details').empty()
-   $('<p>', { 
-              class: 'text',
-              text: feedObject.feed.entries[imageNumber].contentSnippet
-                }).appendTo('.details')
+
+function setBanner(rssTitle) {
+  
 }
 
 
-window.onload = function() {
+// window.onload = function() {
   function setText() {
   var imageNumber = $('.is-selected').attr("alt");
+  articleLink = currentFeed.feed.entries[imageNumber].link
+  $('.date').text(currentFeed.feed.entries[imageNumber].publishedDate);
+  $('.title').text(currentFeed.feed.entries[imageNumber].title)
+  $('.link-title').attr('href', currentFeed.feed.entries[imageNumber].link);
   $('.details').empty()
+  // $("img").wrap("<a href='http://www.google.com'></a>")
    $('<p>', { 
               class: 'text',
-              text: feedObject.feed.entries[imageNumber].contentSnippet
+              text: currentFeed.feed.entries[imageNumber].contentSnippet
                 }).appendTo('.details')
 }
 
+function selectDiffRssFeed(feedToBeAppended) {
+  // flkty = $gallery.data('flickity');
+  // flkty.selectedElement
+  var cellElements = $gallery.flickity('getCellElements')
+  $gallery.flickity( 'remove', cellElements )
+  newFeedObject = feedToBeAppended;
+  currentFeed = newFeedObject;
+  $('.heading').empty().text(newFeedObject.feed.title)
+          for (var i = 0; i < feedToBeAppended.feed.entries.length; i++) {
+            if (i === 0){
+              var temp =  $('<p>', { 
+              class: 'text',
+              text: newFeedObject.feed.entries[0].contentSnippet
+                }).appendTo('.details')
+            }
 
+            if (newFeedObject.feed.entries[i].mediaGroups 
+                === undefined){
+              image = "http://placehold.it/350x150"
+          }else {
+            image = newFeedObject.feed.entries[i].mediaGroups[0].contents[0].url;
+          }
+           var temp =  $('<a>', { 
+              class: 'gallery-cell',
+              alt: i,
+              href: newFeedObject.feed.entries[i].link
+                }).append( $('<img>', { 
+                    src: image
+                    // href: newFeedObject.feed.entries[i].link
+                }))
+                // var $cellElems = $('<div class="gallery-cell">...</div>');
+                var $cellElems = temp;
+                $gallery.flickity( 'append', $cellElems );
+                // $galleryNav.flickity( 'append', $cellElems );
+          }
+}
 
+function cycleFeeds(number) {
+
+  if (number <= 12 && number >= 0 ){
+  switch (number) {
+  case 0:
+    getFeedFromList = feedObject;
+    break;
+  case 1:
+    getFeedFromList = feedObject1;
+    break;
+  case 2:
+    getFeedFromList = feedObject2;
+    break;
+  case 3:
+    getFeedFromList = feedObject3;
+    break;
+  case 4:
+    getFeedFromList = feedObject4;
+    break;
+  case 5:
+    getFeedFromList = feedObject5;
+    break;
+  case 6:
+    getFeedFromList = feedObject6;
+    break;
+  case 7:
+    getFeedFromList = feedObject7;
+    break;
+  case 8:
+    getFeedFromList = feedObject8;
+    break;
+  case 9:
+    getFeedFromList = feedObject9;
+    break;
+  case 10:
+    getFeedFromList = feedObject10;
+    break;
+  case 11:
+    getFeedFromList = feedObject11;
+    break;
+  case 12:
+    getFeedFromList = feedObject12;
+    break;
+  default:
+    console.log("Not a vaild feed");
+    }
+    selectDiffRssFeed(getFeedFromList)
+  }
+}
 
 Leap.loop({enableGestures: true}, function(frame){
   if (frame.gestures.length > 0) {
@@ -177,10 +407,11 @@ Leap.loop({enableGestures: true}, function(frame){
                     setText()
                 }
             }
-            else if (yMov > 0.3) {
+            else if (yMov > 0.1) {
                 if (g.direction[1] < 0) {
                     // onDownSwipe();
                     console.log('down')
+                    $('#pocket-button-0').click();
                 }
                 else {
                     // onUpSwipe();
@@ -190,23 +421,58 @@ Leap.loop({enableGestures: true}, function(frame){
             }
         }
     }
+  //  if (frame.gestures.length > 0) {
+  //   for (var i = 0; i < 1; i++) {
+  //     var gesture = frame.gestures[i];
+  //     if(gesture.type == "swipe") {
+  //         //Classify swipe as either horizontal or vertical
+  //         var isHorizontal = Math.abs(gesture.direction[0]) > Math.abs(gesture.direction[1]);
+  //         //Classify as right-left or up-down
+  //         if(isHorizontal){
+  //             if(gesture.direction[0] > 0){
+  //                 swipeDirection = "right";
+  //                 $gallery.flickity( 'next')
+  //                   setText()
+                    
+  //             } else {
+  //                 swipeDirection = "left";
+  //                 $gallery.flickity( 'previous')
+  //                   setText()
+                    
+  //             }
+  //         } else { //vertical
+  //             if(gesture.direction[1] > 0){
+  //                 swipeDirection = "up";
+  //             } else {
+  //                 swipeDirection = "down";
+  //             }                  
+  //         }
+  //         // console.log(swipeDirection)
+  //      }
+  //    }
+  // }
   if(frame.valid && frame.gestures.length > 0){
     frame.gestures.forEach(function(gesture){
         switch (gesture.type){
           case "circle":
               console.log("Circle Gesture");
               // location.reload();
-              
               break;
           case "keyTap":
-              console.log("Key Tap Gesture");
+              console.log("Keyh Tap Gesture");
+              // selectDiffRssFeed(feedObject4)
+              cycleFeeds(tapKeyNumber);
+              setText()
+              if (tapKeyNumber === 11){
+                tapKeyNumber = 0
+              }else {
+                tapKeyNumber += 1;
+              }
               break;
           case "screenTap":
               console.log("Screen Tap Gesture");
-              $('.is-selected').magnificPopup({
-  type: 'image'
-  // other options
-});
+              var url = $('.link').attr('href');
+              window.location = url;
               break;
           case "swipe":
               // console.log("Swipe Gesture");
@@ -215,11 +481,12 @@ Leap.loop({enableGestures: true}, function(frame){
     });
   }
 });
-flkty = $gallery.data('flickity');
-flkty.selectedElement
-setText2()
-}
+
+// } // on load bracket
+// selectDiffRssFeed(feedObject4)
+
 
 
 </script>
+<script type="text/javascript">!function(d,i){if(!d.getElementById(i)){var j=d.createElement("script");j.id=i;j.src="https://widgets.getpocket.com/v1/j/btn.js?v=1";var w=d.getElementById(i);d.body.appendChild(j);}}(document,"pocket-btn-js");</script>
 </html>

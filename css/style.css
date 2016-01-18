@@ -11,17 +11,39 @@ body { font-family: sans-serif; }
   max-width: 30%;
   margin: auto;
 }
-.text .heading {
+.date {
+  text-align: center;
+  max-width: 30%;
+  margin: auto;
+  position: inherit;
+}
+
+.pocket-btn {
+  text-align: center;
+  max-width: 30%;
+  margin: auto;
+  position: inherit;
+}
+.title {
+  font-weight: 500px;
+  /*font-size: 1.5em;*/
+  color: #000000;
+  text-transform: uppercase;
+  text-align: center;
+  text-decoration: none;
+}
+
+.text .heading  {
   position: inherit;
 
 }
 
 .heading {
   font-weight: 500;
-    font-size: 1.5em;
-    color: #AAB2BD;
-    text-transform: uppercase;
-    text-align: center;
+  font-size: 2em;
+  color: #AAB2BD;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .gallery .galleryNav {
