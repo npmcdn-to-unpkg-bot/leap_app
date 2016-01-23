@@ -36,7 +36,7 @@ When the user triggers the next RSS feed the image data for that feed is removed
 
 ## Technologies
 
-+ [A Leap Motion Controller]9https://www.leapmotion.com/)
++ [A Leap Motion Controller](https://www.leapmotion.com/)
 + [Flickity.js](http://flickity.metafizzy.co/)
 + [Leap.js](https://github.com/leapmotion/leapjs)
 + [velocity.js](http://julian.com/research/velocity/)
