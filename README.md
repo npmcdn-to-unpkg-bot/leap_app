@@ -16,7 +16,7 @@ And a 'down swipe' adds the article to the users Pocket account.
 
 [Live Demo](http://fyrdmen.github.io/leap_app/)
 Demo requires the use of A leap Motion controller.
-A video demonstration will be added since few will have a Leap Controller
+A video demonstration will be added.
 
 ## How it works
 
